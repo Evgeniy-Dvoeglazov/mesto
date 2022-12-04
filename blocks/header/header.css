@@ -1,0 +1,12 @@
+.header {
+  grid-area: header;
+  padding-top: 45px;
+  border-bottom: 1px solid rgba(84, 84, 84, .7);
+}
+
+@media screen and (max-width: 424px) {
+
+  .header {
+    padding-top: 28px;
+  }
+}
