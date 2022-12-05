@@ -4,8 +4,8 @@ let editForm = document.querySelector('.popup__form');
 let closeFormBtn = document.querySelector('.popup__close-btn');
 let profileName = document.querySelector('.profile__title-text');
 let profileInfo = document.querySelector('.profile__subtitle');
-let inputName = document.querySelector('.popup__text_name');
-let inputInfo = document.querySelector('.popup__text_info');
+let inputName = document.querySelector('.popup__text_type_name');
+let inputInfo = document.querySelector('.popup__text_type_info');
 
 function openForm() {
   popup.classList.add('popup_opened');
