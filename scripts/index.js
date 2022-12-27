@@ -27,7 +27,6 @@ const initialCards = [
 
 const profileEditBtn = document.querySelector('.profile__edit-btn');
 const placeAddBtn = document.querySelector('.profile__add-btn');
-const popup = document.querySelector('.popup');
 const popupEdit = document.querySelector('#popup_edit');
 const popupAdd = document.querySelector('#popup_add');
 const popupPhoto = document.querySelector('#popup_photo');

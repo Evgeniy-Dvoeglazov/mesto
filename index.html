@@ -38,7 +38,7 @@
 
       <!-- ==== elements ==== -->
 
-      <section class="elements">
+      <section class="elements" aria-label="Подборка карточек с фотографиями и названиями красивых мест">
         <ul class="elements__list">
         </ul>
       </section>
@@ -81,11 +81,13 @@
     </div>
 
     <div class="popup popup__photo" id="popup_photo">
-      <figure class="popup__photo-container">
-        <img class="popup__large-photo">
-        <figcaption class="popup__caption"></figcaption>
+      <div class="popup__photo-container">
+        <figure class="popup__figure">
+          <img src="#" class="popup__large-photo" alt="увеличенное фото места">
+          <figcaption class="popup__caption"></figcaption>
+        </figure>
         <button class="popup__close-btn" id="popup__close-btn_largePhoto" type="button"></button>
-      </figure>
+      </div>
     </div>
 
   </div>
