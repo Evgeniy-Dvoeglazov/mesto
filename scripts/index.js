@@ -10,10 +10,10 @@ const closeEditFormBtn = document.querySelector('#popup__close-btn_edit');
 const closeLargePhotoBtn = document.querySelector('#popup__close-btn_largePhoto');
 const profileName = document.querySelector('.profile__title-text');
 const profileInfo = document.querySelector('.profile__subtitle');
-const inputName = document.querySelector('#popup__text_type_name');
-const inputInfo = document.querySelector('#popup__text_type_info');
-const inputPlaceName = document.querySelector('#popup__text_type_placeName');
-const inputPlaceSrc = document.querySelector('#popup__url_type_placeSrc');
+const inputName = document.querySelector('#popup__input_name');
+const inputInfo = document.querySelector('#popup__input_info');
+const inputPlaceName = document.querySelector('#popup__input_placename');
+const inputPlaceSrc = document.querySelector('#popup__input_placesrc');
 const popupAddButtonSubmit = document.querySelector('#popupAdd__button');
 const popupEditButtonSubmit = document.querySelector('#popupEdit__button');
 ///////////////////////////////////////////////////////
