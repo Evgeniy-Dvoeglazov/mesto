@@ -14,9 +14,32 @@ const inputName = document.querySelector('#popup__text_type_name');
 const inputInfo = document.querySelector('#popup__text_type_info');
 const inputPlaceName = document.querySelector('#popup__text_type_placeName');
 const inputPlaceSrc = document.querySelector('#popup__url_type_placeSrc');
+const popupAddButtonSubmit = document.querySelector('#popupAdd__button');
+const popupEditButtonSubmit = document.querySelector('#popupEdit__button');
+///////////////////////////////////////////////////////
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  deleteError();
+
+  if (popup.classList.contains('popup_opened')) {
+
+    /* ------- Закрытие попапа нажатием на Esc --------*/
+
+    document.addEventListener('keydown', (evt) => {
+      if (evt.key === 'Escape') {
+        closePopup(popup);
+      }
+    });
+
+    /* ------- Закрытие попапа кликом на оверлей --------*/
+
+    popup.addEventListener('click', (evt) => {
+      if (evt.target.id === popup.id) {
+        closePopup(popup);
+      }
+    });
+  }
 }
 
 function closePopup(popup) {
@@ -31,10 +54,10 @@ function openFormEdit() {
   openPopup(popupEdit);
   inputName.value = profileName.textContent;
   inputInfo.value = profileInfo.textContent;
+  popupEditButtonSubmit.classList.remove('popup__button_disabled');
 }
 
-function addProfileInfo(evt) {
-  evt.preventDefault();
+function addProfileInfo() {
   profileName.textContent = inputName.value;
   profileInfo.textContent = inputInfo.value;
   closePopup(popupEdit);
@@ -93,6 +116,7 @@ elementsContainer.append(...initialCards.map(createElement));
 function openFormAdd() {
   openPopup(popupAdd);
   addForm.reset();
+  popupAddButtonSubmit.classList.add('popup__button_disabled');
 }
 
 placeAddBtn.addEventListener('click', openFormAdd);
@@ -105,8 +129,7 @@ const addCard = (place) => {
   elementsContainer.prepend(createElement(place));
 };
 
-function addPlace(evt) {
-  evt.preventDefault();
+function addPlace() {
   const cardContent = {
     name: inputPlaceName.value,
     link: inputPlaceSrc.value
@@ -117,3 +140,28 @@ function addPlace(evt) {
 }
 
 addForm.addEventListener('submit', addPlace);
+
+/* ------- Удаление ошибок при повторном открытии попапа --------*/
+
+function deleteError() {
+  const inputListWithError = Array.from(document.querySelectorAll('.popup__input'));
+
+  inputListWithError.forEach((inputElementWithError) => {
+    const inputError = document.querySelector(`.${inputElementWithError.id}-error`);
+    inputError.textContent = '';
+    inputError.classList.remove('popup__error_visible');
+    inputElementWithError.classList.remove('popup__input_type_error');
+  });
+}
+
+/* ------- Запуск валидации форм --------*/
+
+
+enableValidation({
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+});
