@@ -31,8 +31,10 @@ const toggleButtonState = (inputList, buttonElement, validObject) => {
 
   if (hasInvalidInput(inputList)) {
     buttonElement.classList.add(validObject.inactiveButtonClass);
+    buttonElement.disabled = true;
   } else {
     buttonElement.classList.remove(validObject.inactiveButtonClass);
+    buttonElement.disabled = false;
   }
 };
 
@@ -52,11 +54,6 @@ function setEventListeners(formElement, validObject) {
 const enableValidation = (validObject) => {
   const formList = Array.from(document.querySelectorAll(validObject.formSelector));
   formList.forEach((formElement) => {
-
-    formElement.addEventListener('submit', function (evt) {
-      evt.preventDefault();
-    });
-
     setEventListeners(formElement, validObject);
   });
 };
