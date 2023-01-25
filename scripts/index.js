@@ -1,13 +1,19 @@
+/* ------- Импортируем данные и соответствующих модулей --------*/
+
+import FormValidator from './FormValidator.js';
+import { initialCards, Card } from './card.js';
+
+///////////////////////////////////////////////////////
+
 const profileEditBtn = document.querySelector('.profile__edit-btn');
 const placeAddBtn = document.querySelector('.profile__add-btn');
 const popupEdit = document.querySelector('#popup_edit');
 const popupAdd = document.querySelector('#popup_add');
-const popupPhoto = document.querySelector('#popup_photo');
+export const popupPhoto = document.querySelector('#popup_photo');
 const formEdit = document.querySelector('#popup__form_edit');
 const formAdd = document.querySelector('#popup__form_add');
 const buttonCloseFormAdd = document.querySelector('#popup__close-btn_add');
 const buttonCloseFormEdit = document.querySelector('#popup__close-btn_edit');
-const buttonCloseLargePhoto = document.querySelector('#popup__close-btn_largePhoto');
 const profileName = document.querySelector('.profile__title-text');
 const profileInfo = document.querySelector('.profile__subtitle');
 const inputName = document.querySelector('#name-input');
@@ -16,59 +22,49 @@ const inputPlaceName = document.querySelector('#placename-input');
 const inputPlaceSrc = document.querySelector('#placesrc-input');
 const buttonSubmitPopupAdd = document.querySelector('#popupAdd__button');
 const buttonSubmitPopupEdit = document.querySelector('#popupEdit__button');
-const largePhoto = document.querySelector('.popup__large-photo');
-const caption = document.querySelector('.popup__caption');
+export const largePhoto = document.querySelector('.popup__large-photo');
+export const buttonCloseLargePhoto = document.querySelector('#popup__close-btn_largePhoto');
+export const caption = document.querySelector('.popup__caption');
 const elementsContainer = document.querySelector('.elements__list');
-const elementTemplate = document.querySelector('#element-template').content.querySelector('.element').cloneNode(true);
 
 ///////////////////////////////////////////////////////
 
-const createElement = (place) => {
-  const card = elementTemplate.cloneNode(true);
-  const cardImage = card.querySelector('.element__image');
-  cardImage.src = place.link;
-  cardImage.alt = "фотография " + place.name;
-  card.querySelector('.element__text').textContent = place.name;
-
-  /* ------- Удаление карточки --------*/
-
-  card.querySelector('.element__delete-btn').addEventListener('click', () => {
-    card.remove();
-  });
-
-  /* ------- Лайк карточки --------*/
-
-  card.querySelector('.element__btn-like').addEventListener('click', (evt) => {
-    evt.target.classList.toggle('element__btn-like_active');
-  });
-
-  /* ------- Открытие попапа с картинкой --------*/
-
-  function openLargePhoto() {
-    openPopup(popupPhoto);
-    largePhoto.src = place.link;
-    largePhoto.alt = "фотография " + place.name;
-    caption.textContent = place.name;
-  }
-
-  cardImage.addEventListener('click', openLargePhoto);
-  return card;
-};
-
-elementsContainer.append(...initialCards.map(createElement));
-
-const addCard = (place) => {
-  elementsContainer.prepend(createElement(place));
+const enableValidation = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
 };
 
 ///////////////////////////////////////////////////////
+/* ------- Создаем экземпляры класса FormValidator для попапов --------*/
 
-function openPopup(popup) {
+const popupEditValidation = new FormValidator(enableValidation, popupEdit);
+popupEditValidation.enableValidation();
+
+const popupAddValidation = new FormValidator(enableValidation, popupAdd);
+popupAddValidation.enableValidation();
+
+///////////////////////////////////////////////////////
+/* ------- Создаем экземпляры карточек при загрузке страницы --------*/
+
+initialCards.forEach((item) => {
+  const card = new Card(item, '.element-template');
+  const cardElement = card.generateCard();
+  elementsContainer.append(cardElement);
+});
+
+///////////////////////////////////////////////////////
+/* ------- Функции открытии я закрытия попапов --------*/
+
+export function openPopup(popup) {
   popup.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupEscape);
 }
 
-function closePopup(popup) {
+export function closePopup(popup) {
   popup.classList.remove('popup_opened');
   document.removeEventListener('keydown', closePopupEscape);
 }
@@ -77,6 +73,7 @@ function closePopup(popup) {
 /* ------- Закрытие попапа нажатием на Esc --------*/
 
 function closePopupEscape(evt) {
+  console.log('работает');
   if (evt.key === 'Escape') {
     const popupOpened = document.querySelector('.popup_opened');
     closePopup(popupOpened);
@@ -93,6 +90,7 @@ function closePopupOverlay(evt) {
 }
 
 ///////////////////////////////////////////////////////
+/* ------- Функции открытия попапов с информацией о профиле и добавления карточки --------*/
 
 function openFormEdit() {
   openPopup(popupEdit);
@@ -110,6 +108,7 @@ function openFormAdd() {
 }
 
 ///////////////////////////////////////////////////////
+/* ------- Функции изменения информации в профиле и добавления новой карточки (с созданием экземпляра класса Card) --------*/
 
 function addProfileInfo(evt) {
   evt.preventDefault();
@@ -125,23 +124,14 @@ function addPlace(evt) {
     link: inputPlaceSrc.value
   };
 
-  addCard(cardContent);
+  const newCardAdd = new Card(cardContent, '.element-template');
+  const newCardElement = newCardAdd.generateCard();
+  elementsContainer.prepend(newCardElement);
   closePopup(popupAdd);
 }
 
 ///////////////////////////////////////////////////////
-/* ------- Запуск валидации форм --------*/
-
-enableValidation({
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible'
-});
-
-///////////////////////////////////////////////////////
+/* ------- Устанавливаем слушатели событий --------*/
 
 popupEdit.addEventListener('click', closePopupOverlay);
 popupAdd.addEventListener('click', closePopupOverlay);
