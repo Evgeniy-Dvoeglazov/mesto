@@ -1,13 +1,13 @@
 /* ------- Создаем класс валидации формы --------*/
 
 export default class FormValidator {
-  constructor(validObject, formElement) {
-    this._formSelector = validObject.formSelector;
-    this._inputSelector = validObject.inputSelector;
-    this._submitButtonSelector = validObject.submitButtonSelector;
-    this._inactiveButtonClass = validObject.inactiveButtonClass;
-    this._inputErrorClass = validObject.inputErrorClass;
-    this._errorClass = validObject.errorClass;
+  constructor(validationConfig, formElement) {
+    this._formSelector = validationConfig.formSelector;
+    this._inputSelector = validationConfig.inputSelector;
+    this._submitButtonSelector = validationConfig.submitButtonSelector;
+    this._inactiveButtonClass = validationConfig.inactiveButtonClass;
+    this._inputErrorClass = validationConfig.inputErrorClass;
+    this._errorClass = validationConfig.errorClass;
     this._formElement = formElement;
   }
 
@@ -47,12 +47,20 @@ export default class FormValidator {
 
   _toggleButtonState() {
     if (this._hasInvalidInput()) {
-      this._buttonElement.classList.add(this._inactiveButtonClass);
-      this._buttonElement.disabled = true;
+      this.disableSubmitButton();
     } else {
-      this._buttonElement.classList.remove(this._inactiveButtonClass);
-      this._buttonElement.disabled = false;
+      this.enableSubmitButton();
     }
+  }
+
+  enableSubmitButton() {
+    this._buttonElement.classList.remove(this._inactiveButtonClass);
+    this._buttonElement.disabled = false;
+  }
+
+  disableSubmitButton() {
+    this._buttonElement.classList.add(this._inactiveButtonClass);
+    this._buttonElement.disabled = true;
   }
 
   /* ------- Метод установки слушателя событий на поля формы --------*/

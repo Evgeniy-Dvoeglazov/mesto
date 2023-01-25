@@ -1,7 +1,9 @@
 /* ------- Импортируем данные и соответствующих модулей --------*/
 
 import FormValidator from './FormValidator.js';
-import { initialCards, Card } from './card.js';
+import Card from './Сard.js';
+import { popupPhoto, initialCards } from './utils/constants.js';
+import { openPopup, closePopup } from './utils/utils.js';
 
 ///////////////////////////////////////////////////////
 
@@ -9,7 +11,6 @@ const profileEditBtn = document.querySelector('.profile__edit-btn');
 const placeAddBtn = document.querySelector('.profile__add-btn');
 const popupEdit = document.querySelector('#popup_edit');
 const popupAdd = document.querySelector('#popup_add');
-export const popupPhoto = document.querySelector('#popup_photo');
 const formEdit = document.querySelector('#popup__form_edit');
 const formAdd = document.querySelector('#popup__form_add');
 const buttonCloseFormAdd = document.querySelector('#popup__close-btn_add');
@@ -20,16 +21,12 @@ const inputName = document.querySelector('#name-input');
 const inputInfo = document.querySelector('#info-input');
 const inputPlaceName = document.querySelector('#placename-input');
 const inputPlaceSrc = document.querySelector('#placesrc-input');
-const buttonSubmitPopupAdd = document.querySelector('#popupAdd__button');
-const buttonSubmitPopupEdit = document.querySelector('#popupEdit__button');
-export const largePhoto = document.querySelector('.popup__large-photo');
-export const buttonCloseLargePhoto = document.querySelector('#popup__close-btn_largePhoto');
-export const caption = document.querySelector('.popup__caption');
 const elementsContainer = document.querySelector('.elements__list');
+const buttonCloseLargePhoto = document.querySelector('#popup__close-btn_largePhoto');
 
 ///////////////////////////////////////////////////////
 
-const enableValidation = {
+const validationConfig = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__button',
@@ -41,43 +38,25 @@ const enableValidation = {
 ///////////////////////////////////////////////////////
 /* ------- Создаем экземпляры класса FormValidator для попапов --------*/
 
-const popupEditValidation = new FormValidator(enableValidation, popupEdit);
+const popupEditValidation = new FormValidator(validationConfig, popupEdit);
 popupEditValidation.enableValidation();
 
-const popupAddValidation = new FormValidator(enableValidation, popupAdd);
+const popupAddValidation = new FormValidator(validationConfig, popupAdd);
 popupAddValidation.enableValidation();
 
 ///////////////////////////////////////////////////////
 /* ------- Создаем экземпляры карточек при загрузке страницы --------*/
 
 initialCards.forEach((item) => {
-  const card = new Card(item, '.element-template');
-  const cardElement = card.generateCard();
-  elementsContainer.append(cardElement);
+  elementsContainer.append(createCard(item));
 });
 
 ///////////////////////////////////////////////////////
-/* ------- Функции открытии я закрытия попапов --------*/
 
-export function openPopup(popup) {
-  popup.classList.add('popup_opened');
-  document.addEventListener('keydown', closePopupEscape);
-}
-
-export function closePopup(popup) {
-  popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closePopupEscape);
-}
-
-///////////////////////////////////////////////////////
-/* ------- Закрытие попапа нажатием на Esc --------*/
-
-function closePopupEscape(evt) {
-  console.log('работает');
-  if (evt.key === 'Escape') {
-    const popupOpened = document.querySelector('.popup_opened');
-    closePopup(popupOpened);
-  }
+function createCard(cardConfig) {
+  const card = new Card(cardConfig, '.element-template');
+  const cardElement = card.generateCard();
+  return cardElement;
 }
 
 ///////////////////////////////////////////////////////
@@ -96,15 +75,13 @@ function openFormEdit() {
   openPopup(popupEdit);
   inputName.value = profileName.textContent;
   inputInfo.value = profileInfo.textContent;
-  buttonSubmitPopupEdit.classList.remove('popup__button_disabled');
-  buttonSubmitPopupEdit.disabled = false;
+  popupEditValidation.enableSubmitButton();
 }
 
 function openFormAdd() {
   openPopup(popupAdd);
   formAdd.reset();
-  buttonSubmitPopupAdd.classList.add('popup__button_disabled');
-  buttonSubmitPopupAdd.disabled = true;
+  popupAddValidation.disableSubmitButton();
 }
 
 ///////////////////////////////////////////////////////
@@ -124,9 +101,7 @@ function addPlace(evt) {
     link: inputPlaceSrc.value
   };
 
-  const newCardAdd = new Card(cardContent, '.element-template');
-  const newCardElement = newCardAdd.generateCard();
-  elementsContainer.prepend(newCardElement);
+  elementsContainer.prepend(createCard(cardContent));
   closePopup(popupAdd);
 }
 

@@ -1,40 +1,12 @@
 /* ------- Импортируем данные --------*/
 
-import { largePhoto, buttonCloseLargePhoto, openPopup, closePopup, popupPhoto, caption } from './index.js';
-
-///////////////////////////////////////////////////////
-
-export const initialCards = [
-  {
-    name: 'Джилы-Су',
-    link: './images/Jilly-Su.jpg'
-  },
-  {
-    name: 'Красная Поляна',
-    link: './images/Krasnaya-Polyana.jpg'
-  },
-  {
-    name: 'Геленджик',
-    link: './images/gelendzhik.jpg'
-  },
-  {
-    name: 'Коктебель',
-    link: './images/Koktebel.jpg'
-  },
-  {
-    name: 'Йошкар-Ола',
-    link: './images/yoshkar-ola.jpg'
-  },
-  {
-    name: 'Судак',
-    link: './images/sudak.jpg'
-  }
-];
+import { openPopup, closePopup } from './utils/utils.js';
+import { popupPhoto, largePhoto, caption } from './utils/constants.js';
 
 ///////////////////////////////////////////////////////
 /* ------- Создаем класс карточки места --------*/
 
-export class Card {
+export default class Card {
   constructor(data, templateSelector) {
     this._title = data.name;
     this._image = data.link;
@@ -54,11 +26,12 @@ export class Card {
 
   generateCard() {
     this._element = this._getTemplate();
+    this._elementImage = this._element.querySelector('.element__image');
     this._setEventListeners();
 
     this._element.querySelector('.element__text').textContent = this._title;
-    this._element.querySelector('.element__image').src = this._image;
-    this._element.querySelector('.element__image').alt = this._altImage;
+    this._elementImage.src = this._image;
+    this._elementImage.alt = this._altImage;
 
     return this._element;
   }
@@ -92,12 +65,8 @@ export class Card {
   /* ------- Метод установки слушателей событий --------*/
 
   _setEventListeners() {
-    this._element.querySelector('.element__image').addEventListener('click', () => {
+    this._elementImage.addEventListener('click', () => {
       this._handleOpenPopup();
-    });
-
-    buttonCloseLargePhoto.addEventListener('click', () => {
-      this._handleClosePopup();
     });
 
     this._element.querySelector('.element__delete-btn').addEventListener('click', () => {
