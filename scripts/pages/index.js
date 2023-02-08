@@ -1,9 +1,11 @@
 /* ------- Импортируем данные и соответствующих модулей --------*/
 
-import FormValidator from './FormValidator.js';
-import Card from './Сard.js';
-import { popupPhoto, initialCards } from './utils/constants.js';
-import { openPopup, closePopup } from './utils/utils.js';
+import FormValidator from '../FormValidator.js';
+import Card from '../components/Сard.js';
+import { popupPhoto, initialCards, largePhoto } from '../utils/constants.js';
+import { openPopup, closePopup } from '../utils/utils.js';
+import Section from '../components/Section.js';
+import PopupWithImage from '../components/PopupWithImage.js';
 
 ///////////////////////////////////////////////////////
 
@@ -15,6 +17,7 @@ const formEdit = document.querySelector('#popup__form_edit');
 const formAdd = document.querySelector('#popup__form_add');
 const buttonCloseFormAdd = document.querySelector('#popup__close-btn_add');
 const buttonCloseFormEdit = document.querySelector('#popup__close-btn_edit');
+const buttonCloseForm = document.querySelector('.popup__close-btn');
 const profileName = document.querySelector('.profile__title-text');
 const profileInfo = document.querySelector('.profile__subtitle');
 const inputName = document.querySelector('#name-input');
@@ -23,6 +26,7 @@ const inputPlaceName = document.querySelector('#placename-input');
 const inputPlaceSrc = document.querySelector('#placesrc-input');
 const elementsContainer = document.querySelector('.elements__list');
 const buttonCloseLargePhoto = document.querySelector('#popup__close-btn_largePhoto');
+
 
 ///////////////////////////////////////////////////////
 
@@ -44,12 +48,16 @@ popupEditValidation.enableValidation();
 const popupAddValidation = new FormValidator(validationConfig, popupAdd);
 popupAddValidation.enableValidation();
 
-///////////////////////////////////////////////////////
-/* ------- Создаем экземпляры карточек при загрузке страницы --------*/
+const cardList = new Section({
+  items: initialCards,
+  renderer: (item) => {
+    const card = new Card(item, '.element-template');
+    const cardElement = card.generateCard();
+    cardList.addItem(cardElement);
+  }
+}, elementsContainer);
 
-initialCards.forEach((item) => {
-  elementsContainer.append(createCard(item));
-});
+cardList.renderItems();
 
 ///////////////////////////////////////////////////////
 
@@ -82,6 +90,13 @@ function openFormAdd() {
   openPopup(popupAdd);
   formAdd.reset();
   popupAddValidation.disableSubmitButton();
+}
+
+function openPopupImage(image, title) {
+  console.log('работает');
+  const popupWithImage = new PopupWithImage(popupPhoto, { image, title });
+  popupWithImage.open();
+  popupWithImage.setEventListeners();
 }
 
 ///////////////////////////////////////////////////////

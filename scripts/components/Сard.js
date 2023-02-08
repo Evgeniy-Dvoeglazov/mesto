@@ -1,7 +1,7 @@
 /* ------- Импортируем данные --------*/
 
-import { openPopup, closePopup } from './utils/utils.js';
-import { popupPhoto, largePhoto, caption } from './utils/constants.js';
+import { openPopup, closePopup } from '../utils/utils.js';
+import { popupPhoto, largePhoto, caption } from '../utils/constants.js';
 
 ///////////////////////////////////////////////////////
 /* ------- Создаем класс карточки места --------*/
@@ -38,17 +38,14 @@ export default class Card {
 
   /* ------- Методы открытия и закрытия попапа с развернутой фотографией --------*/
 
+  /* --
   _handleOpenPopup() {
     openPopup(popupPhoto);
     largePhoto.src = this._image;
     largePhoto.alt = this._altImage;
     caption.textContent = this._title;
   }
-
-  _handleClosePopup() {
-    closePopup(popupPhoto);
-    largePhoto.src = '';
-  }
+  ---*/
 
   /* ------- Метод удаления карточки --------*/
 
@@ -65,9 +62,13 @@ export default class Card {
   /* ------- Метод установки слушателей событий --------*/
 
   _setEventListeners() {
+
+     /* --
     this._elementImage.addEventListener('click', () => {
       this._handleOpenPopup();
     });
+
+    --*/
 
     this._element.querySelector('.element__delete-btn').addEventListener('click', () => {
       this._removeCard();
