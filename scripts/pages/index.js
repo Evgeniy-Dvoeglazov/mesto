@@ -6,6 +6,8 @@ import { popupPhoto, initialCards, largePhoto } from '../utils/constants.js';
 import { openPopup, closePopup } from '../utils/utils.js';
 import Section from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import Popup from '../components/Popup.js';
 
 ///////////////////////////////////////////////////////
 
@@ -17,7 +19,6 @@ const formEdit = document.querySelector('#popup__form_edit');
 const formAdd = document.querySelector('#popup__form_add');
 const buttonCloseFormAdd = document.querySelector('#popup__close-btn_add');
 const buttonCloseFormEdit = document.querySelector('#popup__close-btn_edit');
-const buttonCloseForm = document.querySelector('.popup__close-btn');
 const profileName = document.querySelector('.profile__title-text');
 const profileInfo = document.querySelector('.profile__subtitle');
 const inputName = document.querySelector('#name-input');
@@ -51,7 +52,7 @@ popupAddValidation.enableValidation();
 const cardList = new Section({
   items: initialCards,
   renderer: (item) => {
-    const card = new Card(item, '.element-template');
+    const card = new Card(item, '.element-template', openPopupImage);
     const cardElement = card.generateCard();
     cardList.addItem(cardElement);
   }
@@ -59,22 +60,19 @@ const cardList = new Section({
 
 cardList.renderItems();
 
+const popupAddClass = new PopupWithForm(popupAdd, addPlace);
+popupAddClass.setEventListeners();
+
 ///////////////////////////////////////////////////////
 
 function createCard(cardConfig) {
-  const card = new Card(cardConfig, '.element-template');
-  const cardElement = card.generateCard();
-  return cardElement;
+  const card = new Card(cardConfig, '.element-template', openPopupImage);
+  return card.generateCard();
 }
 
 ///////////////////////////////////////////////////////
 /* ------- Закрытие попапа кликом на оверлей --------*/
 
-function closePopupOverlay(evt) {
-  if (evt.srcElement === evt.target) {
-    closePopup(evt.target);
-  }
-}
 
 ///////////////////////////////////////////////////////
 /* ------- Функции открытия попапов с информацией о профиле и добавления карточки --------*/
@@ -87,14 +85,13 @@ function openFormEdit() {
 }
 
 function openFormAdd() {
-  openPopup(popupAdd);
+  popupAddClass.open();
   formAdd.reset();
   popupAddValidation.disableSubmitButton();
 }
 
-function openPopupImage(image, title) {
-  console.log('работает');
-  const popupWithImage = new PopupWithImage(popupPhoto, { image, title });
+function openPopupImage(image, title, altImage) {
+  const popupWithImage = new PopupWithImage(popupPhoto, { image, title, altImage });
   popupWithImage.open();
   popupWithImage.setEventListeners();
 }
@@ -109,8 +106,7 @@ function addProfileInfo(evt) {
   closePopup(popupEdit);
 }
 
-function addPlace(evt) {
-  evt.preventDefault();
+function addPlace() {
   const cardContent = {
     name: inputPlaceName.value,
     link: inputPlaceSrc.value
@@ -122,7 +118,7 @@ function addPlace(evt) {
 
 ///////////////////////////////////////////////////////
 /* ------- Устанавливаем слушатели событий --------*/
-
+/*
 popupEdit.addEventListener('click', closePopupOverlay);
 popupAdd.addEventListener('click', closePopupOverlay);
 popupPhoto.addEventListener('click', closePopupOverlay);
@@ -131,8 +127,9 @@ buttonCloseFormEdit.addEventListener('click', () => closePopup(popupEdit));
 buttonCloseFormAdd.addEventListener('click', () => closePopup(popupAdd));
 buttonCloseLargePhoto.addEventListener('click', () => closePopup(popupPhoto));
 
+*/
 profileEditBtn.addEventListener('click', openFormEdit);
 placeAddBtn.addEventListener('click', openFormAdd);
 
-formEdit.addEventListener('submit', addProfileInfo);
-formAdd.addEventListener('submit', addPlace);
+// formEdit.addEventListener('submit', addProfileInfo);
+// formAdd.addEventListener('submit', addPlace);

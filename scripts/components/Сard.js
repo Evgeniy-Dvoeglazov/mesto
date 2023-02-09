@@ -7,11 +7,12 @@ import { popupPhoto, largePhoto, caption } from '../utils/constants.js';
 /* ------- Создаем класс карточки места --------*/
 
 export default class Card {
-  constructor(data, templateSelector) {
+  constructor(data, templateSelector, handleCardClick) {
     this._title = data.name;
     this._image = data.link;
     this._altImage = "фотография " + data.name;
     this._templateSelector = templateSelector;
+    this._handleCardClick = handleCardClick;
   }
 
   /* ------- Получаем разметку из template-элемента и клониурем ее --------*/
@@ -38,14 +39,10 @@ export default class Card {
 
   /* ------- Методы открытия и закрытия попапа с развернутой фотографией --------*/
 
-  /* --
-  _handleOpenPopup() {
-    openPopup(popupPhoto);
-    largePhoto.src = this._image;
-    largePhoto.alt = this._altImage;
-    caption.textContent = this._title;
+
+  _openPopupImage() {
+    this._handleCardClick(this._image, this._title, this._altImage);
   }
-  ---*/
 
   /* ------- Метод удаления карточки --------*/
 
@@ -63,12 +60,10 @@ export default class Card {
 
   _setEventListeners() {
 
-     /* --
-    this._elementImage.addEventListener('click', () => {
-      this._handleOpenPopup();
-    });
 
-    --*/
+    this._elementImage.addEventListener('click', () => {
+      this._openPopupImage();
+    });
 
     this._element.querySelector('.element__delete-btn').addEventListener('click', () => {
       this._removeCard();

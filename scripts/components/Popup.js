@@ -1,3 +1,5 @@
+import { buttonCloseForm } from '../utils/constants.js';
+
 export default class Popup {
   constructor(popupSelector) {
     this._popup = popupSelector;
@@ -14,7 +16,7 @@ export default class Popup {
     document.removeEventListener('keydown', this._handleEscClose);
   }
 
-  _handleEscClose() {
+  _handleEscClose(evt) {
     if (evt.key === 'Escape') {
       this.close();
     }
@@ -22,10 +24,10 @@ export default class Popup {
 
   setEventListeners() {
     buttonCloseForm.addEventListener('click', () => this.close());
-    this._popup.addEventListener('click', () => {
-      if (evt.srcElement === evt.target) {
-        this.close(evt.target);
-      }
-    });
+    // this._popup.addEventListener('click', (evt) => {
+    //   if (evt.srcElement === evt.target) {
+    //     this.close(evt.target);
+    //   }
+    // });
   }
 }

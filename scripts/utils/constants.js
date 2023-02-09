@@ -28,5 +28,5 @@ const initialCards = [
 const popupPhoto = document.querySelector('#popup_photo');
 const largePhoto = document.querySelector('.popup__large-photo');
 const caption = document.querySelector('.popup__caption');
-
-export { popupPhoto, largePhoto, caption, initialCards };
+const buttonCloseForm = document.querySelector('.popup__close-btn');
+export { popupPhoto, largePhoto, caption, initialCards, buttonCloseForm };
