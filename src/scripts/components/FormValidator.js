@@ -1,5 +1,3 @@
-/* ------- Создаем класс валидации формы --------*/
-
 export default class FormValidator {
   constructor(validationConfig, formElement) {
     this._formSelector = validationConfig.formSelector;
@@ -11,7 +9,7 @@ export default class FormValidator {
     this._formElement = formElement;
   }
 
-  /* ------- Методы показа и скрытия сообщения об ошибке валидации --------*/
+  // Методы показа и скрытия сообщения об ошибке валидации
 
   _showInputError(inputElement, errorMessage) {
     const errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
@@ -27,7 +25,7 @@ export default class FormValidator {
     errorElement.classList.remove(this._errorClass);
   }
 
-  /* ------- Метод проверки валидации --------*/
+  // Метод проверки валидации
 
   _checkInputValidity(inputElement) {
     if (!inputElement.validity.valid) {
@@ -37,7 +35,7 @@ export default class FormValidator {
     }
   }
 
-  /* ------- Методы изменения состояния кнопки --------*/
+  // Методы изменения состояния кнопки
 
   _hasInvalidInput() {
     return this._inputList.some((inputElement) => {
@@ -63,7 +61,7 @@ export default class FormValidator {
     this._buttonElement.disabled = true;
   }
 
-  /* ------- Метод установки слушателя событий на поля формы --------*/
+  // Метод установки слушателя событий на поля формы
 
   _setEventListeners() {
     this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
@@ -78,7 +76,7 @@ export default class FormValidator {
     });
   }
 
-  /* ------- Публичный метод, запускающий валидацию --------*/
+  // Публичный метод, запускающий валидацию
 
   enableValidation() {
     this._setEventListeners();

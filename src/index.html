@@ -5,7 +5,6 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="pages/index.css">
   <title>Место</title>
 </head>
 
@@ -15,7 +14,7 @@
     <!-- ==== header ==== -->
 
     <header class="header">
-      <img class="header__logo" src="./images/Logo.svg" alt="Логотип Место">
+      <img class="header__logo" src="<%=require('./images/Logo.svg')%>" alt="Логотип Место">
     </header>
 
     <main class="main">
@@ -24,7 +23,7 @@
 
       <section class="profile">
         <div class="profile__info">
-          <img class="profile__avatar" src="./images/avatar-Dvoeglazov.jpg" alt="Аватарка">
+          <img class="profile__avatar" src="<%=require('./images/avatar-Dvoeglazov.jpg')%>" alt="Аватарка">
           <div class="profile__description">
             <div class="profile__title">
               <h1 class="profile__title-text">Евгений Д.</h1>
@@ -57,10 +56,10 @@
       <div class="popup__container">
         <h2 class="popup__title">Редактировать профиль</h2>
         <form class="popup__form" id="popup__form_edit" name="editForm" novalidate>
-          <input class="popup__input" id="name-input" type="text" name="username" placeholder="Имя" required
+          <input class="popup__input" id="name-input" type="text" name="name" placeholder="Имя" required
             minlength="2" maxlength="40">
           <span class="popup__error name-input-error"></span>
-          <input class="popup__input" id="info-input" type="text" name="userInfo" placeholder="О себе" required
+          <input class="popup__input" id="info-input" type="text" name="info" placeholder="О себе" required
             minlength="2" maxlength="200">
           <span class="popup__error info-input-error"></span>
           <button class="popup__button" type="submit" id="popupEdit__button">Сохранить</button>
@@ -74,10 +73,10 @@
       <div class="popup__container">
         <h2 class="popup__title">Новое место</h2>
         <form class="popup__form" id="popup__form_add" name="addForm" novalidate>
-          <input class="popup__input" id="placename-input" type="text" name="username" placeholder="Название" required
+          <input class="popup__input" id="placename-input" type="text" name="name" placeholder="Название" required
             minlength="2" maxlength="30">
           <span class="popup__error placename-input-error"></span>
-          <input class="popup__input" id="placesrc-input" type="url" name="userInfo" placeholder="Ссылка на картинку"
+          <input class="popup__input" id="placesrc-input" type="url" name="link" placeholder="Ссылка на картинку"
             required>
           <span class="popup__error placesrc-input-error"></span>
           <button class="popup__button" type="submit" id="popupAdd__button">Создать</button>
@@ -111,7 +110,6 @@
     </li>
   </template>
 
-  <script defer type="module" src="./scripts/pages/index.js"></script>
 </body>
 
 </html>

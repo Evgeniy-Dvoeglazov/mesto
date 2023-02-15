@@ -1,11 +1,3 @@
-/* ------- Импортируем данные --------*/
-
-import { openPopup, closePopup } from '../utils/utils.js';
-import { popupPhoto, largePhoto, caption } from '../utils/constants.js';
-
-///////////////////////////////////////////////////////
-/* ------- Создаем класс карточки места --------*/
-
 export default class Card {
   constructor(data, templateSelector, handleCardClick) {
     this._title = data.name;
@@ -15,15 +7,14 @@ export default class Card {
     this._handleCardClick = handleCardClick;
   }
 
-  /* ------- Получаем разметку из template-элемента и клониурем ее --------*/
+  // Получаем разметку из template-элемента и клониурем ее
 
   _getTemplate() {
     const elementTemplate = document.querySelector(this._templateSelector).content.querySelector('.element').cloneNode(true);
-
     return elementTemplate;
   }
 
-  /* ------- Публичный метод подготовки карточки к публикации --------*/
+  // Публичный метод подготовки карточки к публикации
 
   generateCard() {
     this._element = this._getTemplate();
@@ -37,29 +28,27 @@ export default class Card {
     return this._element;
   }
 
-  /* ------- Методы открытия и закрытия попапа с развернутой фотографией --------*/
-
+  // Метод открытия попапа с развернутой фотографией
 
   _openPopupImage() {
-    this._handleCardClick(this._image, this._title, this._altImage);
+    this._handleCardClick(this._image, this._title);
   }
 
-  /* ------- Метод удаления карточки --------*/
+  // Метод удаления карточки
 
   _removeCard() {
     this._element.remove();
   }
 
-  /* ------- Метод лайка карточки --------*/
+  // Метод лайка карточки
 
   _likeCard(evt) {
     evt.target.classList.toggle('element__btn-like_active');
   }
 
-  /* ------- Метод установки слушателей событий --------*/
+  // Метод установки слушателей событий
 
   _setEventListeners() {
-
 
     this._elementImage.addEventListener('click', () => {
       this._openPopupImage();
