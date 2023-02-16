@@ -41,16 +41,12 @@ const validationConfig = {
   errorClass: 'popup__error_visible'
 };
 
-const popupPhoto = document.querySelector('#popup_photo');
 const largePhoto = document.querySelector('.popup__large-photo');
 const caption = document.querySelector('.popup__caption');
 const inputName = document.querySelector('#name-input');
 const inputInfo = document.querySelector('#info-input');
 const profileEditBtn = document.querySelector('.profile__edit-btn');
 const placeAddBtn = document.querySelector('.profile__add-btn');
-const popupEdit = document.querySelector('#popup_edit');
-const popupAdd = document.querySelector('#popup_add');
-const formAdd = document.querySelector('#popup__form_add');
 const profileName = document.querySelector('.profile__title-text');
 const profileInfo = document.querySelector('.profile__subtitle');
 const elementsContainer = document.querySelector('.elements__list');
@@ -58,7 +54,6 @@ const elementsContainer = document.querySelector('.elements__list');
 ///////////////////////////////////////////////////////
 
 export {
-  popupPhoto,
   largePhoto,
   caption,
   initialCards,
@@ -66,9 +61,6 @@ export {
   inputInfo,
   profileEditBtn,
   placeAddBtn,
-  popupEdit,
-  popupAdd,
-  formAdd,
   profileName,
   profileInfo,
   elementsContainer,

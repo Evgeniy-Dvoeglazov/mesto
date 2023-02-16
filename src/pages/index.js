@@ -6,18 +6,26 @@ import Section from '../scripts/components/Section.js';
 import PopupWithImage from '../scripts/components/PopupWithImage.js';
 import PopupWithForm from '../scripts/components/PopupWithForm.js';
 import UserInfo from '../scripts/components/UserInfo.js';
-import { popupPhoto, initialCards, inputName, inputInfo, profileEditBtn, placeAddBtn, popupEdit, popupAdd, formAdd, profileName, profileInfo, elementsContainer, validationConfig } from '../scripts/utils/constants.js';
+import { initialCards, inputName, inputInfo, profileEditBtn, placeAddBtn, profileName, profileInfo, elementsContainer, validationConfig } from '../scripts/utils/constants.js';
 import './index.css';
 
+// cобмраем экземпляры класса FormValidator в объект
 
-///////////////////////////////////////////////////////
-// Создаем экземпляры класса FormValidator для попапов
+const formValidators = {}
 
-const popupEditValidation = new FormValidator(validationConfig, popupEdit);
-popupEditValidation.enableValidation();
+// Включение валидации
+const enableValidation = (config) => {
+  const formList = Array.from(document.querySelectorAll(config.formSelector))
+  formList.forEach((formElement) => {
+    const validator = new FormValidator(config, formElement);
+    // получаем данные из атрибута `name` у формы
+    const formName = formElement.getAttribute('name');
+    formValidators[formName] = validator;
+    validator.enableValidation();
+  });
+};
 
-const popupAddValidation = new FormValidator(validationConfig, popupAdd);
-popupAddValidation.enableValidation();
+enableValidation(validationConfig);
 
 // Создаем экземпляр класса Section со слабым связыванием с классом Сard
 // Section отвечвет за отрисовку карточек.
@@ -26,8 +34,7 @@ const cardList = new Section({
   items: initialCards,
   // Через функцию-колбек получаем разметку отдельной карточки
   renderer: (item) => {
-    const card = new Card(item, '.element-template', openPopupImage);
-    const cardElement = card.generateCard();
+    const cardElement = createCard(item);
     cardList.addItem(cardElement);
   }
 }, elementsContainer);
@@ -37,15 +44,20 @@ cardList.renderItems();
 // Создаем эксземпляры класса PopupWithForm для формы добавления карточки
 // и формы редактирования профиля
 
-const popupWithFormAdd = new PopupWithForm(popupAdd, addPlace);
+const popupWithFormAdd = new PopupWithForm('#popup_add', addPlace);
 popupWithFormAdd.setEventListeners();
 
-const popupWithFormEdit = new PopupWithForm(popupEdit, addProfileInfo);
+const popupWithFormEdit = new PopupWithForm('#popup_edit', addProfileInfo);
 popupWithFormEdit.setEventListeners();
 
 // Создаем эксземпляры класса UserInfo
 
 const userInfo = new UserInfo({ name: profileName, info: profileInfo });
+
+// Создаем экземпляр класса PopupWithImage
+
+const popupWithImage = new PopupWithImage('#popup_photo');
+popupWithImage.setEventListeners();
 
 ///////////////////////////////////////////////////////
 
@@ -61,26 +73,22 @@ function createCard(cardConfig) {
 
 function openFormEdit() {
   popupWithFormEdit.open();
+  formValidators['editForm'].resetValidation();
   const userDefaultInfo = userInfo.getUserInfo();
   inputName.value = userDefaultInfo.name;
   inputInfo.value = userDefaultInfo.info;
-  popupEditValidation.enableSubmitButton();
 }
 
 // Функция открытия попапа добавления карточки
 
 function openFormAdd() {
   popupWithFormAdd.open();
-  formAdd.reset();
-  popupAddValidation.disableSubmitButton();
+  formValidators['addForm'].resetValidation();
 }
 
-// Функция открытия попапа с фотографией.
-// Создает экземпляр класса PopupWithImage
+// Функция открытия попапа с фотографией
 
 function openPopupImage(image, title) {
-  const popupWithImage = new PopupWithImage(popupPhoto);
-  popupWithImage.setEventListeners();
   popupWithImage.open(image, title);
 }
 
@@ -94,7 +102,21 @@ function addProfileInfo(getInputValue) {
 }
 
 function addPlace(getInputValue) {
-  elementsContainer.prepend(createCard(getInputValue));
+
+  const userCard = {
+    name: getInputValue.name,
+    link: getInputValue.link
+  };
+
+  const newUserCard = new Section({
+    items: userCard,
+    renderer: (item) => {
+      const cardElement = createCard(item);
+      newUserCard.prependItem(cardElement);
+    }
+  }, elementsContainer);
+
+  newUserCard.renderItem();
   popupWithFormAdd.close();
 }
 

@@ -5,7 +5,7 @@ export default class PopupWithForm extends Popup {
     super(popupSelector);
     this._handleSubmitForm = handleSubmitForm;
     this._inputList = Array.from(this._popup.querySelectorAll('.popup__input'));
-    this._errorList = Array.from(this._popup.querySelectorAll('.popup__error'));
+    this._popupForm = this._popup.querySelector('.popup__form');
   }
 
   // Собираем данные всех полей формы
@@ -34,11 +34,6 @@ export default class PopupWithForm extends Popup {
 
   close() {
     super.close();
-    this._errorList.forEach((errorElement) => {
-      errorElement.textContent = '';
-    });
-    this._inputList.forEach((inputElement) => {
-      inputElement.classList.remove('popup__input_type_error');
-    });
+    this._popupForm.reset();
   }
 }

@@ -61,6 +61,14 @@ export default class FormValidator {
     this._buttonElement.disabled = true;
   }
 
+  resetValidation() {
+    this._toggleButtonState();
+
+    this._inputList.forEach((inputElement) => {
+      this._hideInputError(inputElement);
+    });
+  }
+
   // Метод установки слушателя событий на поля формы
 
   _setEventListeners() {
