@@ -108,15 +108,9 @@ function addPlace(getInputValue) {
     link: getInputValue.link
   };
 
-  const newUserCard = new Section({
-    items: userCard,
-    renderer: (item) => {
-      const cardElement = createCard(item);
-      newUserCard.prependItem(cardElement);
-    }
-  }, elementsContainer);
+  const cardElement = createCard(userCard);
+  cardList.prependItem(cardElement);
 
-  newUserCard.renderItem();
   popupWithFormAdd.close();
 }
 

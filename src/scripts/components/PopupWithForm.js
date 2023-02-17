@@ -30,7 +30,7 @@ export default class PopupWithForm extends Popup {
     });
   }
 
-  // Добавляем в метод close очистку ифнормации об ошибках при повторном открытии попапа
+  // Добавляем в метод close сброс формы
 
   close() {
     super.close();
