@@ -21,9 +21,9 @@ export default class Section {
 
   // Публичный метод, отвечающий за отрисовку всех карточек
 
-  renderItems() {
-    this._items.forEach(item => {
-      this._renderer(item);
+  renderItems(items, userId) {
+    items.forEach(item => {
+      this._renderer(item, userId);
     });
   }
 }

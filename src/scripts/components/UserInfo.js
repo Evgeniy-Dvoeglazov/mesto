@@ -13,8 +13,8 @@ export default class UserInfo {
 
   // Метод принимает новые данные с формы и добавляет их на страницу
 
-  setUserInfo(getInputValue) {
-    this._name.textContent = getInputValue.name;
-    this._info.textContent = getInputValue.info;
+  setUserInfo({name, about}) {
+    this._name.textContent = name;
+    this._info.textContent = about;
   }
 }

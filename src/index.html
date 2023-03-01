@@ -86,13 +86,24 @@
       </div>
     </div>
 
-    <div class="popup popup_photo" id="popup_photo">
+    <div class="popup" id="popup_photo">
       <div class="popup__photo-container">
         <figure class="popup__figure">
           <img src="#" class="popup__large-photo" alt="#">
           <figcaption class="popup__caption"></figcaption>
         </figure>
         <button class="popup__close-btn" id="popup__close-btn_largePhoto" type="button"
+          aria-label="Кнопка закрытия формы"></button>
+      </div>
+    </div>
+
+    <div class="popup" id="popup_delete">
+      <div class="popup__container">
+        <h2 class="popup__title">Вы уверены?</h2>
+        <form class="popup__form" id="popup__form_add" name="addForm">
+          <button class="popup__button" type="submit" id="popupDelete__button">Да</button>
+        </form>
+        <button class="popup__close-btn" id="popup__close-btn_delete" type="button"
           aria-label="Кнопка закрытия формы"></button>
       </div>
     </div>
@@ -104,7 +115,10 @@
       <img class="element__image">
       <div class="element__description">
         <h2 class="element__text"></h2>
-        <button class="element__btn-like" type="button" aria-label="Кнопка поставить лайк"></button>
+        <div class="element__like">
+          <button class="element__btn-like" type="button" aria-label="Кнопка поставить лайк"></button>
+          <p class="element__like-quantity"></p>
+        </div>
       </div>
       <button class="element__delete-btn" type="button" aria-label="Кнопка удаления карточки места"></button>
     </li>

@@ -50,6 +50,7 @@ const placeAddBtn = document.querySelector('.profile__add-btn');
 const profileName = document.querySelector('.profile__title-text');
 const profileInfo = document.querySelector('.profile__subtitle');
 const elementsContainer = document.querySelector('.elements__list');
+const avatar = document.querySelector('.profile__avatar');
 
 ///////////////////////////////////////////////////////
 
@@ -64,5 +65,6 @@ export {
   profileName,
   profileInfo,
   elementsContainer,
-  validationConfig
+  validationConfig,
+  avatar
 };
