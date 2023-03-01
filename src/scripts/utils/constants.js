@@ -1,37 +1,3 @@
-import JillySuImage from '../../images/Jilly-Su.jpg';
-import KrasnayaPolyanaImage from '../../images/Krasnaya-Polyana.jpg';
-import GelendzhikImage from '../../images/gelendzhik.jpg';
-import KoktebelImage from '../../images/Koktebel.jpg';
-import YoshkarOlaImage from '../../images/yoshkar-ola.jpg';
-import SudakImage from '../../images/sudak.jpg';
-
-const initialCards = [
-  {
-    name: 'Джилы-Су',
-    link: JillySuImage
-  },
-  {
-    name: 'Красная Поляна',
-    link: KrasnayaPolyanaImage
-  },
-  {
-    name: 'Геленджик',
-    link: GelendzhikImage
-  },
-  {
-    name: 'Коктебель',
-    link: KoktebelImage
-  },
-  {
-    name: 'Йошкар-Ола',
-    link: YoshkarOlaImage
-  },
-  {
-    name: 'Судак',
-    link: SudakImage
-  }
-];
-
 const validationConfig = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
@@ -46,18 +12,22 @@ const caption = document.querySelector('.popup__caption');
 const inputName = document.querySelector('#name-input');
 const inputInfo = document.querySelector('#info-input');
 const profileEditBtn = document.querySelector('.profile__edit-btn');
+const avatarBtn = document.querySelector('.profile__avatar-btn');
 const placeAddBtn = document.querySelector('.profile__add-btn');
 const profileName = document.querySelector('.profile__title-text');
 const profileInfo = document.querySelector('.profile__subtitle');
 const elementsContainer = document.querySelector('.elements__list');
-const avatar = document.querySelector('.profile__avatar');
+const avatar = document.querySelector('.profile__avatar-image');
+const popupEditBtn = document.querySelector('#popupEdit__button');
+const popupAddBtn = document.querySelector('#popupAdd__button');
+const popupAvatarBtn = document.querySelector('#popupChangeAvatar__button');
+
 
 ///////////////////////////////////////////////////////
 
 export {
   largePhoto,
   caption,
-  initialCards,
   inputName,
   inputInfo,
   profileEditBtn,
@@ -66,5 +36,9 @@ export {
   profileInfo,
   elementsContainer,
   validationConfig,
-  avatar
+  avatar,
+  avatarBtn,
+  popupEditBtn,
+  popupAddBtn,
+  popupAvatarBtn
 };

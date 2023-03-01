@@ -1,8 +1,8 @@
 export default class Card {
-  constructor(cardData, templateSelector, handleCardClick, handleCardDelete, userId) {
+  constructor(cardData, templateSelector, handleCardClick, handleCardDelete, userId, addLikeCard, removeLikeCard) {
     this._title = cardData.name;
     this._image = cardData.link;
-    this._likes = cardData.likes.length;
+    this._likes = cardData.likes;
     this._ownerId = cardData.owner._id;
     this._cardId = cardData._id;
     this._userId = userId;
@@ -10,6 +10,8 @@ export default class Card {
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
     this._handleCardDelete = handleCardDelete;
+    this._addLike = addLikeCard;
+    this._removeLike = removeLikeCard;
   }
 
   // Получаем разметку из template-элемента и клониурем ее
@@ -17,6 +19,16 @@ export default class Card {
   _getTemplate() {
     const elementTemplate = document.querySelector(this._templateSelector).content.querySelector('.element').cloneNode(true);
     return elementTemplate;
+  }
+
+  // Метод проверки наших лайков при перезагрузке страницы для сохранения активного статуса
+
+  _changeLikeImageStatus() {
+    this._likes.forEach(like => {
+      if (like._id === this._userId) {
+        this._element.querySelector('.element__btn-like').classList.add('element__btn-like_active');
+      }
+    });
   }
 
   // Публичный метод подготовки карточки к публикации
@@ -28,11 +40,13 @@ export default class Card {
       this._element.querySelector('.element__delete-btn').classList.add('element__delete-btn_visible');
     }
 
+    this._changeLikeImageStatus();
+
     this._elementImage = this._element.querySelector('.element__image');
     this._setEventListeners();
 
     this._element.querySelector('.element__text').textContent = this._title;
-    this._element.querySelector('.element__like-quantity').textContent = this._likes;
+    this._element.querySelector('.element__like-quantity').textContent = this._likes.length;
     this._elementImage.src = this._image;
     this._elementImage.alt = this._altImage;
 
@@ -51,15 +65,15 @@ export default class Card {
     this._handleCardDelete(this._cardId, this._element);
   }
 
-  // Метод удаления карточки
+  // Метод изменения счетчика лайков и изменения цвета
 
-  // _removeCard() {
-  //   this._element.remove();
-  // }
+  _changeLikeCard(evt) {
+    if (evt.target.classList.contains('element__btn-like_active')) {
+      this._removeLike(this._cardId, this._element, this._likes.lenght);
+    } else {
+      this._addLike(this._cardId, this._element, this._likes.lenght);
+    };
 
-  // Метод лайка карточки
-
-  _likeCard(evt) {
     evt.target.classList.toggle('element__btn-like_active');
   }
 
@@ -76,7 +90,8 @@ export default class Card {
     });
 
     this._element.querySelector('.element__btn-like').addEventListener('click', (evt) => {
-      this._likeCard(evt);
+
+      this._changeLikeCard(evt);
     });
   }
 }

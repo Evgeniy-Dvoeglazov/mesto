@@ -23,7 +23,10 @@
 
       <section class="profile">
         <div class="profile__info">
-          <img class="profile__avatar" src="<%=require('./images/avatar-Dvoeglazov.jpg')%>" alt="Аватарка">
+          <div class="profile__avatar">
+            <button class="profile__avatar-btn" type="button" aria-label="Кнопка изменения аватара"></button>
+            <img class="profile__avatar-image" src="#" alt="Аватарка">
+          </div>
           <div class="profile__description">
             <div class="profile__title">
               <h1 class="profile__title-text">Евгений Д.</h1>
@@ -56,8 +59,8 @@
       <div class="popup__container">
         <h2 class="popup__title">Редактировать профиль</h2>
         <form class="popup__form" id="popup__form_edit" name="editForm" novalidate>
-          <input class="popup__input" id="name-input" type="text" name="name" placeholder="Имя" required
-            minlength="2" maxlength="40">
+          <input class="popup__input" id="name-input" type="text" name="name" placeholder="Имя" required minlength="2"
+            maxlength="40">
           <span class="popup__error name-input-error"></span>
           <input class="popup__input" id="info-input" type="text" name="info" placeholder="О себе" required
             minlength="2" maxlength="200">
@@ -99,11 +102,25 @@
 
     <div class="popup" id="popup_delete">
       <div class="popup__container">
-        <h2 class="popup__title">Вы уверены?</h2>
-        <form class="popup__form" id="popup__form_add" name="addForm">
+        <h2 class="popup__title-delete">Вы уверены?</h2>
+        <form class="popup__form" id="popup__form_delete" name="deleteForm">
           <button class="popup__button" type="submit" id="popupDelete__button">Да</button>
         </form>
         <button class="popup__close-btn" id="popup__close-btn_delete" type="button"
+          aria-label="Кнопка закрытия формы"></button>
+      </div>
+    </div>
+
+    <div class="popup" id="popup_changeAvatar">
+      <div class="popup__container">
+        <h2 class="popup__title">Обновить аватар</h2>
+        <form class="popup__form" id="popup__form_changeAvatar" name="changeAvatarForm" novalidate>
+          <input class="popup__input" id="avatarsrc-input" type="url" name="link" placeholder="Ссылка на фотографию"
+            required>
+          <span class="popup__error avatarsrc-input-error"></span>
+          <button class="popup__button" type="submit" id="popupChangeAvatar__button">Сохранить</button>
+        </form>
+        <button class="popup__close-btn" id="popup__close-btn_avatar" type="button"
           aria-label="Кнопка закрытия формы"></button>
       </div>
     </div>
