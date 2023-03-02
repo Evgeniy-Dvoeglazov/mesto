@@ -1,14 +1,14 @@
-const handleResponse = (res) => {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Ошибка: ${res.status}`);
-}
-
 export default class Api {
   constructor(options) {
     this._url = options.baseUrl;
     this._headers = options.headers;
+  }
+
+  _checkResponse(res) {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
   }
 
   // Получаем данные о пользователе с сервера
@@ -17,7 +17,9 @@ export default class Api {
     return fetch(`${this._url}/users/me`, {
       headers: this._headers
     })
-      .then(handleResponse);
+      .then((res) => {
+        return this._checkResponse(res);
+      });
   }
 
   // Получаем массив карточек с сервера
@@ -26,7 +28,9 @@ export default class Api {
     return fetch(`${this._url}/cards`, {
       headers: this._headers
     })
-      .then(handleResponse);
+      .then((res) => {
+        return this._checkResponse(res);
+      });
   }
 
   // Изменяем данные о пользлвателе на сервере
@@ -40,7 +44,9 @@ export default class Api {
         about: getInputValue.info
       })
     })
-      .then(handleResponse);
+      .then((res) => {
+        return this._checkResponse(res);
+      });
   }
 
   // Передаем данные новой карточки
@@ -54,7 +60,9 @@ export default class Api {
         link: userCard.link
       })
     })
-      .then(handleResponse);
+      .then((res) => {
+        return this._checkResponse(res);
+      });
   }
 
   // Удаляем данные карточки
@@ -63,9 +71,10 @@ export default class Api {
     return fetch(`${this._url}/cards/${cardId}`, {
       method: 'DELETE',
       headers: this._headers,
-      })
-
-      .then(handleResponse);
+    })
+      .then((res) => {
+        return this._checkResponse(res);
+      });
   }
 
   // Добавляем карточке лайк
@@ -74,9 +83,10 @@ export default class Api {
     return fetch(`${this._url}/cards/${cardId}/likes`, {
       method: 'PUT',
       headers: this._headers,
-      })
-
-      .then(handleResponse);
+    })
+      .then((res) => {
+        return this._checkResponse(res);
+      });
   }
 
   // Удаляем лайк
@@ -85,9 +95,10 @@ export default class Api {
     return fetch(`${this._url}/cards/${cardId}/likes`, {
       method: 'DELETE',
       headers: this._headers,
-      })
-
-      .then(handleResponse);
+    })
+      .then((res) => {
+        return this._checkResponse(res);
+      });
   }
 
   // Отправляем ссылку на смену аватара
@@ -100,7 +111,8 @@ export default class Api {
         avatar: getInputValue.link
       })
     })
-
-      .then(handleResponse);
+      .then((res) => {
+        return this._checkResponse(res);
+      });
   }
 }

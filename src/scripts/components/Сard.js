@@ -26,27 +26,34 @@ export default class Card {
   _changeLikeImageStatus() {
     this._likes.forEach(like => {
       if (like._id === this._userId) {
-        this._element.querySelector('.element__btn-like').classList.add('element__btn-like_active');
+        this._btnLike.classList.add('element__btn-like_active');
       }
     });
+  }
+
+  changeLikeQuantity(quantity) {
+    this._elementQuantity.textContent = quantity.likes.length;
+    this._btnLike.classList.toggle('element__btn-like_active');
   }
 
   // Публичный метод подготовки карточки к публикации
 
   generateCard() {
     this._element = this._getTemplate();
+    this._elementQuantity = this._element.querySelector('.element__like-quantity');
+    this._btnLike = this._element.querySelector('.element__btn-like');
+    this._elementImage = this._element.querySelector('.element__image');
+    this._elementDeleteBtn = this._element.querySelector('.element__delete-btn');
 
     if (this._userId === this._ownerId) {
-      this._element.querySelector('.element__delete-btn').classList.add('element__delete-btn_visible');
+      this._elementDeleteBtn.classList.add('element__delete-btn_visible');
     }
 
     this._changeLikeImageStatus();
-
-    this._elementImage = this._element.querySelector('.element__image');
     this._setEventListeners();
 
     this._element.querySelector('.element__text').textContent = this._title;
-    this._element.querySelector('.element__like-quantity').textContent = this._likes.length;
+    this._elementQuantity.textContent = this._likes.length;
     this._elementImage.src = this._image;
     this._elementImage.alt = this._altImage;
 
@@ -69,12 +76,10 @@ export default class Card {
 
   _changeLikeCard(evt) {
     if (evt.target.classList.contains('element__btn-like_active')) {
-      this._removeLike(this._cardId, this._element, this._likes.lenght);
+      this._removeLike(this._cardId, this, this._likes.lenght);
     } else {
-      this._addLike(this._cardId, this._element, this._likes.lenght);
+      this._addLike(this._cardId, this, this._likes.lenght);
     };
-
-    evt.target.classList.toggle('element__btn-like_active');
   }
 
   // Метод установки слушателей событий
@@ -85,11 +90,11 @@ export default class Card {
       this._openPopupImage();
     });
 
-    this._element.querySelector('.element__delete-btn').addEventListener('click', () => {
+    this._elementDeleteBtn.addEventListener('click', () => {
       this._openPopupDelete();
     });
 
-    this._element.querySelector('.element__btn-like').addEventListener('click', (evt) => {
+    this._btnLike.addEventListener('click', (evt) => {
 
       this._changeLikeCard(evt);
     });
